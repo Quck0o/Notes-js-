@@ -1,250 +1,316 @@
+/* Базовые переменные */
+:root {
+    --index: calc(1vw + 1vh);
+    --primary-bg: #ffffff; /* белый фон */
+    --secondary-bg: #f5f5f5; /* серый фон */
+    --accent-color: #4a90e2; /* синий цвет */
+    --text-color: #333333; /* черный цвет текста */
+    --border-color: #e0e0e0; /* серый цвет границ */
+    --hover-color: #e8f0fe; /* светло-синий цвет при наведении */
+    --danger-color: #dc3545; /* красный цвет */
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* тень */
+    --note-bg: #ffffff; /* фон заметок */
+    --note-border: #e0e0e0; /* граница заметок */
+    --note-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* тень заметок */
+    --sidebar-width: calc(var(--index) * 8); /* адаптивная ширина боковой панели */
+    --header-height: calc(var(--index) * 2.5); /* адаптивная высота заголовка */
+}
+
+/* Переменные для темной темы */
+[data-theme="dark"] {
+    --primary-bg: #1a1a1a; /* темный фон */
+    --secondary-bg: #2b2b2b; /* темно-серый фон */
+    --accent-color: #4a90e2; /* синий цвет (оставляем тот же) */
+    --text-color: #ffffff; /* белый цвет текста */
+    --border-color: #424242; /* темно-серый цвет границ */
+    --hover-color: #2c3e50; /* темно-синий цвет при наведении */
+    --danger-color: #e74c3c; /* красный цвет для темной темы */
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* усиленная тень */
+    --note-bg: #2b2b2b; /* темный фон заметок */
+    --note-border: #424242; /* темная граница заметок */
+    --note-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* усиленная тень заметок */
+}
+
+/* Переключатель темы */
+.theme-switch {
+    width: 100%; /* Полная ширина как у других кнопок */
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.7rem;
+    padding: calc(var(--index) * 0.6); /* Адаптивный отступ */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    min-height: 2.2rem;
+    z-index: 10;
+    margin-bottom: calc(var(--index) * 0.4); /* Адаптивный отступ снизу */
+}
+
+.theme-switch:hover {
+    background: var(--hover-color); /* цвет при наведении из переменной */
+}
+
+.theme-switch img {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--primary-bg); /* цвет фона из переменной */
     margin: 0;
     padding: 0;
     height: 100vh;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
+    color: var(--text-color); /* цвет текста из переменной */
+    transition: background-color 0.3s ease, color 0.3s ease; /* плавный переход при смене темы */
+    font-size: 1rem; /* базовый размер шрифта */
 }
 
 .empty {
     width: 100%;
-    max-width: 1200px; 
+    max-width: calc(var(--index) * 60);
     display: flex;
     flex-direction: row;
-    height: 100vh; 
+    height: 100vh;
+    box-shadow: var(--shadow);
 }
 
 .header {
-    background-color: none;
+    background-color: var(--accent-color); /* акцентный цвет */
     color: white;
-    padding: 0px;
+    padding: 0;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-   
-    border-radius: 0px;
+    font-size: 1.5rem; /* крупный заголовок */
+    font-weight: 600; /* полужирный шрифт */
+    border-radius: 0;
     z-index: 10;
-    width: 200px;
-    height: 5rem;
-    line-height: 5rem; 
+    width: var(--sidebar-width); /* адаптивный размер ширины */
+    height: var(--header-height); /* адаптивный размер высоты */
+    line-height: var(--header-height); /* адаптивный размер высоты */
+    box-shadow: var(--shadow); /* тень из переменной */
 }
 
-
 .sidebar {
-    width: 200px;
-    background-color: #2b2b2b;
-    padding: 10px; 
-    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-     
+    position: relative;
+    width: var(--sidebar-width);
+    background-color: var(--secondary-bg);
+    padding: calc(var(--index) * 0.8);
+    box-shadow: var(--shadow);
     display: flex;
-    flex-direction: column; 
-    
+    flex-direction: column;
+    gap: calc(var(--index) * 0.5);
+    min-height: 100vh;
 }
 
 #notesContainer {
-    flex: 1; 
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #1a1a1a;
-    position: relative; 
-    border-left: 2px dashed #a5a5a5;
-    border-right: 2px dashed #a5a5a5;
+    flex: 1;
+    padding: calc(var(--index) * 1);
+    background-color: var(--primary-bg);
+    position: relative;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    min-width: 0;
+    overflow-y: hidden; /* Убираем прокрутку по Y для широкоформатных */
 }
 
 .note {
     position: absolute;
-    width: 300px;
-    height: 200px;
-    background: rgb(255, 255, 255);
-    border: none;
-    padding: 10px;
+    width: calc(var(--index) * 15); /* адаптивный размер ширины */
+    height: calc(var(--index) * 10); /* адаптивный размер высоты */
+    background: var(--note-bg); /* цвет фона из переменной */
+    border: 1px solid var(--note-border); /* граница из переменной */
+    padding: calc(var(--index) * 0.8); /* увеличенный отступ */
     box-sizing: border-box;
     resize: both;
     overflow: auto;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* скругленные углы */
+    box-shadow: var(--note-shadow); /* тень из переменной */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease; /* плавные переходы */
+    color: var(--text-color); /* цвет текста из переменной */
+    font-size: 1rem; /* размер текста заметки */
 }
 
+/* добавил hover */
+.note:hover {
+    transform: translateY(calc(var(--index) * -0.1)); /* легкое поднятие */
+    box-shadow: 0 calc(var(--index) * 0.2) calc(var(--index) * 0.6) rgba(0, 0, 0, 0.15); /* усиленная тень */
+}
+
+/* добавил адаптивные размеры */
 .delete-button {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    color: rgb(255, 0, 0);
+    top: calc(var(--index) * 0.4);
+    right: calc(var(--index) * 0.4);
+    color: var(--danger-color); /* цвет из переменной */
     border: none;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    line-height: 20px;
+    width: calc(var(--index) * 1.2); /* адаптивный размер */
+    height: calc(var(--index) * 1.2); /* адаптивный размер */
+    font-size: calc(var(--index) * 0.7); /* адаптивный размер шрифта */
+    line-height: calc(var(--index) * 1.2); /* адаптивный размер высоты */
     text-align: center;
-    border-radius: 20px;
+    border-radius: 50%; /* круглая кнопка */
+    background: transparent;
+    transition: background-color 0.2s ease; /* плавная анимация */
 }
 
 .delete-button:hover {
-    background: rgb(207, 0, 0);
+    background: rgba(220, 53, 69, 0.1); /* полупрозрачный красный */
 }
 
-.note-wrapper {
+/* добавил адаптивные размеры */
+#addNote, #addTask, #deleteSelected, #clearNotes {
+    background-color: var(--secondary-bg); /* цвет фона из переменной */
+    color: var(--text-color); /* цвет текста из переменной */
+    border: 1px solid var(--border-color); /* граница из переменной */
+    padding: calc(var(--index) * 0.6); /* адаптивный отступ */
+    margin-bottom: calc(var(--index) * 0.4); /* адаптивный отступ */
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem; /* размер текста кнопок */
+    border-radius: 8px; /* скругленные углы */
+    display: flex;
+    align-items: center;
+    gap: calc(var(--index) * 0.4); /* адаптивный промежуток */
+    transition: all 0.2s ease; /* плавная анимация */
+}
+
+#addNote:hover, #addTask:hover {
+    background-color: var(--hover-color); /* цвет при наведении из переменной */
+    border-color: var(--accent-color); /* цвет границы из переменной */
+    color: var(--accent-color); /* цвет текста из переменной */
+}
+
+#clearNotes, #deleteSelected {
+    color: var(--danger-color); /* цвет из переменной */
+}
+
+#clearNotes:hover, #deleteSelected:hover {
+    background-color: rgba(220, 53, 69, 0.1); /* полупрозрачный красный */
+    border-color: var(--danger-color); /* цвет границы из переменной */
+}
+
+/* добавил адаптивные размеры */
+.category-btn {
+    background-color: var(--secondary-bg); /* цвет фона из переменной */
+    color: var(--text-color); /* цвет текста из переменной */
+    border: 1px solid var(--border-color); /* граница из переменной */
+    padding: calc(var(--index) * 0.5); /* адаптивный отступ */
+    margin-left: calc(var(--index) * 1); /* адаптивный отступ */
+    margin-bottom: calc(var(--index) * 0.4); /* адаптивный отступ */
+    width: calc(100% - var(--index) * 1); /* адаптивная ширина */
+    cursor: pointer;
+    font-size: 1rem; /* размер текста кнопки категории */
+    border-radius: 8px; /* скругленные углы */
+    display: flex;
+    align-items: center;
+    gap: calc(var(--index) * 0.4); /*适应тивный промежуток */
+    transition: all 0.2s ease; /* плавная анимация */
+}
+
+.category-btn:hover {
+    background-color: var(--hover-color); /* цвет при наведении из переменной */
+    border-color: var(--accent-color); /* цвет границы из переменной */
+    color: var(--accent-color); /* цвет текста из переменной */
+}
+
+/* добавил адаптивные размеры */
+.context-menu {
     position: absolute;
-    display: inline-block;
-    min-width: 150px;
-    min-height: 100px;
+    background: var(--secondary-bg); /* цвет фона из переменной */
+    border: 1px solid var(--border-color); /* граница из переменной */
+    border-radius: 8px; /* скругленные углы */
+    box-shadow: var(--shadow); /* тень из переменной */
+    z-index: 1000;
+    width: calc(var(--index) * 9); /* адаптивная ширина */
+    padding: calc(var(--index) * 0.2); /* адаптивный отступ */
 }
 
-
-#addNote{
-    background-color: #2b2b2b;
-    color: white;
-    border: none;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
+.context-menu-item {
+    padding: calc(var(--index) * 0.5) calc(var(--index) * 0.6); /* адаптивный отступ */
+    color: var(--text-color); /* цвет текста из переменной */
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 20px;
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--index) * 0.4); /* адаптивный промежуток */
+    border-radius: 4px; /* скругленные углы */
+    transition: background-color 0.2s ease; /* плавная анимация */
+    font-size: 1rem; /* размер текста в контекстном меню */
 }
 
-#addTask    {
-    background-color: #2b2b2b;
-    color: white;
-    border: none;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 20px;
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
+.context-menu-item:hover {
+    background: var(--hover-color); /* цвет при наведении из переменной */
 }
 
-#clearNotes{
-    background-color:#2b2b2b;
-    color: rgb(194, 0, 0);
-    border: none;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 20px;
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
+.context-menu-item.delete {
+    color: var(--danger-color); /* цвет из переменной */
 }
 
-#addNote:hover, #clearNotes:hover, #addTask:hover {
-    background-color: #424242;
+.context-menu-item.delete:hover {
+    background: rgba(220, 53, 69, 0.1); /* полупрозрачный красный */
 }
-
-
-
-#clearNotes:hover {
-    background-color: #000000;
-}
-
-.note:active {
-    animation: stretch 0.5s ease; 
-}
-
 
 @keyframes stretch {
     0% {
-        transform: scale(1); 
+        transform: scale(1);
     }
     50% {
-        transform: scale(1.05, 1.1); 
+        transform: scale(1.02); /* уменьшенный эффект растяжения */
     }
     100% {
         transform: scale(1);
     }
 }
 
-#deleteSelected {
-    background-color: #2b2b2b;
-    color: rgb(194, 0, 0);
-    border: none;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.note:active {
+    animation: stretch 0.3s ease; /* ускоренная анимация */
 }
 
-#deleteSelected:hover {
-    background-color: #000000;
-}
-
-
-.category-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px; 
-}
-
-.category-btn {
-    background-color: #2b2b2b;
-    color: white; 
-    border: none;
-    padding: 8px;
-    margin-left: 20px; 
-    margin-bottom: 8px;
-    width: calc(100% - 20px);
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.category-btn:hover {
-    background-color: #424242;
+.note-wrapper {
+    position: absolute;
+    display: inline-block;
+    min-width: calc(var(--index) * 7.5); /* адаптивная минимальная ширина */
+    min-height: calc(var(--index) * 5); /* адаптивная минимальная высота */
 }
 
 .hidden {
     display: none;
 }
 
-/*Менюшка*/
+/* Адаптивные стили для планшетов (768px и меньше) */
+@media screen and (max-width: 768px) {
+    .empty {
+        flex-direction: column; /* вертикальное расположение */
+        height: 100vh;
+    }
 
-.context-menu {
-    position: absolute;
-    background: #2b2b2b;
-    border: 1px solid #424242;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    z-index: 1000;
-    width: 150px;
-}
+    .sidebar {
+        width: 100%; /* полная ширина */
+        height: auto; /* автоматическая высота */
+        min-height: auto;
+        padding: calc(var(--index) * 0.6); /* уменьшенный отступ */
+        position: relative;
+    }
 
-.context-menu-item {
-    padding: 8px 12px;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    .header {
+        width: 100%; /* полная ширина */
+        font-size: calc(var(--index) * 1); /* уменьшенный размер шрифта */
+        position: relative;
+    }
 
-.context-menu-item:hover {
-    background: #424242;
-}
+    #notesContainer {
+        height: calc(100vh - var(--header-height) - calc(var(--index) * 10)); /* адаптивная высота */
+    }
 
-.context-menu-item.delete {
-    color: rgb(194, 0, 0);
-}
-
-.context-menu-item.delete:hover {
-    background: #000000;
+    .theme-switch {
+        position: relative;
+        bottom: auto;
+        margin: 0;
+    }
 }
